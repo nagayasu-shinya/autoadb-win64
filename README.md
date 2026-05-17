@@ -1,50 +1,82 @@
 # autoadb-win64
 AutoAdb binary file (executable file) for 64bit Windows.
 
-## what's AutoAdb ?
+## What's AutoAdb?
 This command-line tool allows to execute a command whenever a new device is connected to adb.
 
 * [Official GitHub](https://github.com/rom1v/autoadb)
 
-## How to install AutoAdb for win64 ?
+## How to Install AutoAdb for Win64
 
-Just download autoadb.exe and set PATH to the files.
+Just download `autoadb.exe` and add it to your Windows PATH.
 
-## How to use ?
+## Prerequisites
 
-For example,
+Make sure `adb.exe` is in your Windows PATH. You can verify by running:
+
+```
+adb.exe version
+```
+
+If not found, add the Android SDK platform-tools directory (e.g. `C:\Users\<user>\AppData\Local\Android\Sdk\platform-tools`) to your PATH.
+
+## Usage
+
+For example, to launch [scrcpy](https://github.com/Genymobile/scrcpy) automatically when a device is connected:
 
 ```
 autoadb.exe scrcpy.exe -s {}
 ```
 
-{} replaces the serial of the device detected.
+`{}` is replaced with the serial of the detected device.
 
+> [!NOTE]
+> On Windows, shell built-in commands (like `echo`, `dir`, `type`) are not standalone executables. You must invoke them through `cmd.exe /C`:
 
-### How to build this binary
-
-This binary is build on Ubuntu 20.04. All it takes is following.
-
-```bash
-$ sudo apt install gcc-mingw-w64-x86-64
-$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+autoadb.exe cmd.exe /C echo {}
 ```
 
-And close terminal and restart.
+### Usage from WSL
+
+You can run the Windows binary directly from WSL:
 
 ```bash
-$ rustup target add x86_64-pc-windows-gnu
-$ vim ~/.cargo/config
-$ cat ~/.cargo/config
-[target.x86_64-pc-windows-gnu]
-linker = "x86_64-w64-mingw32-gcc"
-ar = "x86_64-w64-mingw32-gcc-ar"
-$ git clone https://github.com/rom1v/autoadb.git
-$ cd autoadb/
-$ cargo build --release --target=x86_64-pc-windows-gnu
+autoadb.exe c:\\Programs\\scrcpy\\scrcpy.exe -s {}
 ```
 
-It will generate target/x86_64-pc-windows-gnu/release/autoadb.exe.
+Alternatively, use `wslpath` to convert the Windows path to WSL format:
+
+```bash
+autoadb.exe $(wslpath -w /mnt/c/Programs/scrcpy/scrcpy.exe) -s {}
+```
+
+Shell built-in commands (like `echo`) require `cmd.exe /C`:
+
+```bash
+autoadb.exe cmd.exe /C echo {}
+```
+
+## How to Build This Binary
+
+This binary is built on Ubuntu (WSL or native). All it takes is the following:
+
+```bash
+sudo apt install gcc-mingw-w64-x86-64
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+Close the terminal and restart, then:
+
+```bash
+rustup target add x86_64-pc-windows-gnu
+mkdir -p ~/.cargo && echo -e '[target.x86_64-pc-windows-gnu]\nlinker = "x86_64-w64-mingw32-gcc"\nar = "x86_64-w64-mingw32-gcc-ar"' >> ~/.cargo/config
+git clone https://github.com/rom1v/autoadb.git
+cd autoadb/
+cargo build --release --target=x86_64-pc-windows-gnu
+```
+
+The binary will be generated at `target/x86_64-pc-windows-gnu/release/autoadb.exe`.
 
 ## License
     Copyright (C) 2017 Genymobile
