@@ -1,10 +1,12 @@
 # autoadb-win64
+
 AutoAdb binary file (executable file) for 64bit Windows.
 
 ## What's AutoAdb?
+
 This command-line tool allows to execute a command whenever a new device is connected to adb.
 
-* [Official GitHub](https://github.com/rom1v/autoadb)
+* [Official GitHub](https://github.com/rom1v/autoadb) (This fork includes additional fixes for Windows not merged into the official repository) 
 
 ## How to Install AutoAdb for Win64
 
@@ -59,7 +61,7 @@ autoadb.exe cmd.exe /C echo {}
 
 ## How to Build This Binary
 
-This binary is built on Ubuntu (WSL or native). All it takes is the following:
+This binary is built from a forked repository that includes fixes not merged into the official repository.
 
 ```bash
 sudo apt install gcc-mingw-w64-x86-64
@@ -71,7 +73,7 @@ Close the terminal and restart, then:
 ```bash
 rustup target add x86_64-pc-windows-gnu
 mkdir -p ~/.cargo && echo -e '[target.x86_64-pc-windows-gnu]\nlinker = "x86_64-w64-mingw32-gcc"\nar = "x86_64-w64-mingw32-gcc-ar"' >> ~/.cargo/config
-git clone https://github.com/rom1v/autoadb.git
+git clone https://github.com/nagayasu-shinya/autoadb.git
 cd autoadb/
 cargo build --release --target=x86_64-pc-windows-gnu
 ```
@@ -79,17 +81,21 @@ cargo build --release --target=x86_64-pc-windows-gnu
 The binary will be generated at `target/x86_64-pc-windows-gnu/release/autoadb.exe`.
 
 ## License
-    Copyright (C) 2017 Genymobile
-    Copyright (C) 2019 Romain Vimont
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+```text
+Copyright (C) 2017 Genymobile
+Copyright (C) 2019 Romain Vimont
 
-        http://www.apache.org/licenses/LICENSE-2.0
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
+
